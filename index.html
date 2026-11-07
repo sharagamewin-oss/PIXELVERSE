@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>PIXELVERSE — Walk In. Explore. Discover. Connect.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <canvas id="scene"></canvas>
+
+  <!-- Welcome screen -->
+  <section id="welcome" class="welcome">
+    <div class="welcome-inner">
+      <div class="logo">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 1 23 12 12 23 1 12Z" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M12 6 18 12 12 18 6 12Z" fill="currentColor"/></svg>
+        <span>PIXELVERSE</span>
+      </div>
+      <p class="tagline">Walk In. Explore. Discover. Connect.</p>
+      <div class="rule"></div>
+      <p class="intro">
+        A virtual exhibition where creators showcase their projects, artwork and ideas.
+        Step inside, wander through the galleries and meet the people behind the work.
+      </p>
+      <button id="enterBtn" class="btn-primary">Enter Exhibition</button>
+      <p class="note">Best experienced on a desktop browser</p>
+    </div>
+  </section>
+
+  <!-- Loading -->
+  <div id="loading" class="loading">
+    <div class="spinner"></div>
+    <p id="loadingText">Preparing the exhibition…</p>
+  </div>
+
+  <!-- HUD -->
+  <div id="hint" class="hint">
+    <span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> or arrows to walk</span>
+    <span>Drag to look · Scroll to zoom</span>
+    <span><kbd>E</kbd> to interact</span>
+  </div>
+
+  <button id="prompt" class="prompt" type="button">
+    <kbd>E</kbd><span id="promptText">View project</span>
+  </button>
+
+  <div id="toast" class="toast"></div>
+
+  <!-- Touch controls -->
+  <div id="pad" class="pad">
+    <button data-code="KeyW" aria-label="Forward">▲</button>
+    <button data-code="KeyA" aria-label="Left">◀</button>
+    <button data-code="KeyS" aria-label="Backward">▼</button>
+    <button data-code="KeyD" aria-label="Right">▶</button>
+  </div>
+
+  <!-- Project panel -->
+  <div id="panel" class="panel" role="dialog" aria-modal="true" aria-labelledby="pTitle">
+    <div class="panel-card">
+      <button id="panelClose" class="panel-close" aria-label="Close project details">×</button>
+      <div class="panel-gallery">
+        <img id="pMain" alt="Project image">
+        <div id="pThumbs" class="thumbs"></div>
+      </div>
+      <div class="panel-info">
+        <span id="pCategory" class="pill"></span>
+        <h2 id="pTitle"></h2>
+        <p class="creator">by <strong id="pCreator"></strong> · <span id="pDate"></span></p>
+        <p id="pDesc" class="desc"></p>
+        <h4>Technologies</h4>
+        <div id="pTech" class="chips"></div>
+        <div class="actions">
+          <a id="pLink" class="btn-primary small" target="_blank" rel="noopener noreferrer">View project ↗</a>
+          <button id="pAsk" class="btn-ghost" type="button">Ask the creator</button>
+        </div>
+        <p class="esc-hint">Press <kbd>ESC</kbd> to close</p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
