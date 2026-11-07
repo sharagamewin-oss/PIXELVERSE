@@ -36,6 +36,11 @@
       </p>
       <button id="enterBtn" class="btn-primary">Enter Exhibition</button>
       <p class="note">Best experienced on a desktop browser</p>
+            <div id="authLinks" class="auth-links">
+        <button id="openLogin" type="button">Log in</button>
+        <span>·</span>
+        <button id="openRegister" type="button">Register as a creator</button>
+      </div>
     </div>
   </section>
 
@@ -89,7 +94,34 @@
       </div>
     </div>
   </div>
+  <!-- User chip -->
+  <div id="userChip" class="user-chip">
+    <span id="userName"></span>
+    <button id="logoutBtn" type="button">Log out</button>
+  </div>
 
+  <!-- Auth modal -->
+  <div id="authModal" class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <div class="auth-card">
+      <button id="authClose" class="panel-close" type="button" aria-label="Close">×</button>
+      <h2 id="authTitle">Welcome back</h2>
+      <form id="authForm" novalidate>
+        <label id="authUsernameWrap" style="display:none">Username
+          <input id="authUsername" type="text" maxlength="24" autocomplete="nickname">
+        </label>
+        <label>Email
+          <input id="authEmail" type="email" required autocomplete="email">
+        </label>
+        <label>Password
+          <input id="authPassword" type="password" minlength="6" required autocomplete="current-password">
+        </label>
+        <p id="authError" class="auth-error" role="alert"></p>
+        <button id="authSubmit" class="btn-primary" type="submit">Log in</button>
+      </form>
+      <button id="authSwitch" class="auth-switch" type="button">New here? Create an account</button>
+    </div>
+  </div>
   <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/auth.js"></script>
 </body>
 </html>
