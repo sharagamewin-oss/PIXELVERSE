@@ -4,9 +4,8 @@ import {
 } from './firebase.js';
 
 const $ = (id) => document.getElementById(id);
-let mode = 'login'; // 'login' | 'register'
+let mode = 'login';
 
-/* ---------- modal ---------- */
 function openAuth(m) {
   setMode(m);
   $('authError').textContent = '';
@@ -23,7 +22,6 @@ function setMode(m) {
   $('authSubmit').textContent = reg ? 'Register' : 'Log in';
   $('authSwitch').textContent = reg ? 'Already have an account? Log in' : 'New here? Create an account';
   $('authUsernameWrap').style.display = reg ? '' : 'none';
-  $('authUsername').required = reg;
   $('authPassword').autocomplete = reg ? 'new-password' : 'current-password';
 }
 
@@ -34,7 +32,6 @@ $('authSwitch').addEventListener('click', () => setMode(mode === 'login' ? 'regi
 $('authModal').addEventListener('pointerdown', (e) => { if (e.target === $('authModal')) closeAuth(); });
 $('logoutBtn').addEventListener('click', () => signOut(auth));
 
-/* ---------- errors ---------- */
 function friendly(err) {
   const map = {
     'auth/email-already-in-use': 'That email is already registered. Try logging in.',
@@ -43,14 +40,15 @@ function friendly(err) {
     'auth/invalid-credential': 'Incorrect email or password.',
     'auth/user-not-found': 'Incorrect email or password.',
     'auth/wrong-password': 'Incorrect email or password.',
-    'auth/too-many-requests': 'Too many attempts. Please wait a moment and try again.',
+    'auth/too-many-requests': 'Too many attempts. Please wait and try again.',
     'auth/network-request-failed': 'Network problem. Check your connection.',
+    'auth/operation-not-allowed': 'Email/Password sign-in is not enabled in Firebase yet.',
+    'auth/unauthorized-domain': 'This website domain is not authorized in Firebase.',
     'permission-denied': 'Account created, but saving your profile was blocked by the database rules.'
   };
-  return map[err.code] || 'Something went wrong. Please try again.';
+  return map[err.code] || ('Something went wrong: ' + (err.code || err.message));
 }
 
-/* ---------- submit ---------- */
 $('authForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const email = $('authEmail').value.trim();
@@ -89,16 +87,11 @@ $('authForm').addEventListener('submit', async (e) => {
   }
 });
 
-/* ---------- auth state ---------- */
 onAuthStateChanged(auth, async (user) => {
-  const chip = $('userChip');
-  const links = $('authLinks');
   if (user) {
     $('userName').textContent = user.displayName || user.email;
-    chip.classList.add('show');
-    links.style.display = 'none';
-
-    // Database test: read the profile back (also repairs a missing profile)
+    $('userChip').classList.add('show');
+    $('authLinks').style.display = 'none';
     try {
       const ref = doc(db, 'users', user.uid);
       const snap = await getDoc(ref);
@@ -115,7 +108,7 @@ onAuthStateChanged(auth, async (user) => {
       console.error('Firestore test failed:', e);
     }
   } else {
-    chip.classList.remove('show');
-    links.style.display = '';
+    $('userChip').classList.remove('show');
+    $('authLinks').style.display = '';
   }
 });
